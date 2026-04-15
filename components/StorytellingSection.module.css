@@ -1,0 +1,43 @@
+.section {
+  background: var(--color-bg);
+  position: relative;
+  z-index: 10;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  max-width: 900px;
+}
+
+.heading {
+  font-size: clamp(var(--text-4xl), 6vw, var(--text-7xl));
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  overflow: hidden;
+}
+
+.word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  margin-right: 0.2em;
+}
+
+.wordInner {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.body {
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  max-width: 720px;
+  margin-top: var(--space-2);
+}

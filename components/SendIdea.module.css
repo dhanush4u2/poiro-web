@@ -1,0 +1,116 @@
+.section {
+  background: var(--color-bg);
+  position: relative;
+  z-index: 10;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-5);
+}
+
+.eyebrow {
+  font-size: var(--text-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+}
+
+.heading {
+  font-size: clamp(var(--text-3xl), 5vw, var(--text-6xl));
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.animateIn {
+  will-change: transform, opacity;
+}
+
+.previews {
+  display: flex;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.previewCard {
+  width: 200px;
+  height: 260px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  cursor: pointer;
+}
+
+.previewCard:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 40px rgba(255, 128, 21, 0.12);
+}
+
+.previewInner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-raised) 100%);
+}
+
+.previewLabel {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+.uploadArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-8) var(--space-10);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  width: 100%;
+  max-width: 600px;
+  cursor: pointer;
+}
+
+.uploadArea:hover {
+  border-color: var(--color-primary);
+  background: rgba(255, 128, 21, 0.03);
+}
+
+.uploadIcon {
+  color: var(--color-primary);
+  opacity: 0.8;
+}
+
+.uploadTitle {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.uploadDesc {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 768px) {
+  .previewCard {
+    width: 150px;
+    height: 200px;
+  }
+
+  .uploadArea {
+    padding: var(--space-5);
+  }
+}
