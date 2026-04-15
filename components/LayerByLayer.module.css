@@ -1,0 +1,119 @@
+.section {
+  background: var(--color-bg);
+  position: relative;
+  z-index: 10;
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-10);
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.heading {
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.videoWrap {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  margin-top: var(--space-3);
+  border: 1px solid var(--color-border);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.layer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  will-change: transform, opacity;
+  position: relative;
+  overflow: hidden;
+}
+
+.layer:hover {
+  background: var(--color-surface-raised);
+  border-color: var(--color-border);
+  transform: translateX(8px);
+}
+
+.layerBar {
+  width: 4px;
+  height: 100%;
+  min-height: 40px;
+  background: var(--layer-color, var(--color-primary));
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.layerContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.layerName {
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.layerDesc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.layerNum {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-muted);
+  opacity: 0.4;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 1024px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  .videoWrap {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layer {
+    padding: var(--space-2);
+  }
+}

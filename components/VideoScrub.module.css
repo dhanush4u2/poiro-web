@@ -1,0 +1,108 @@
+.section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: var(--color-bg);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.canvasWrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Debug / Fallback View */
+.debugView {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  position: relative;
+}
+
+.debugContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  z-index: 2;
+}
+
+.debugFrame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.debugFrameNum {
+  font-size: clamp(var(--text-7xl), 15vw, 12rem);
+  font-weight: var(--font-weight-extrabold);
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  opacity: 0.9;
+  text-shadow: 0 0 80px rgba(255, 128, 21, 0.3);
+}
+
+.debugLabel {
+  font-size: var(--text-xl);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.debugBarWrap {
+  width: min(400px, 80vw);
+  height: 4px;
+  background: var(--color-surface-raised);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.debugBar {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+
+.debugHint {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+}
+
+/* Side progress bar */
+.progressWrap {
+  position: absolute;
+  right: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 120px;
+  background: var(--color-border);
+  border-radius: 1px;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.progressBar {
+  width: 100%;
+  background: var(--color-primary);
+  border-radius: 1px;
+  transition: height 0.1s linear;
+}

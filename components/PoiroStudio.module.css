@@ -1,0 +1,105 @@
+.section {
+  background: var(--color-bg);
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+}
+
+.glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 128, 21, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-6);
+  position: relative;
+  z-index: 2;
+}
+
+.heading {
+  font-size: clamp(var(--text-4xl), 6vw, var(--text-7xl));
+  font-weight: var(--font-weight-extrabold);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.headingAccent {
+  color: var(--color-primary);
+}
+
+.visualGrid {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.visualCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  min-width: 180px;
+}
+
+.visualCard:hover {
+  border-color: var(--color-border);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.visualCardAccent {
+  border-color: var(--color-primary);
+  background: rgba(255, 128, 21, 0.05);
+}
+
+.visualCardAccent:hover {
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 8px 32px rgba(255, 128, 21, 0.15);
+}
+
+.visualIcon {
+  font-size: var(--text-4xl);
+  line-height: 1;
+}
+
+.visualLabel {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+}
+
+.visualArrow {
+  font-size: var(--text-3xl);
+  color: var(--color-text-muted);
+  opacity: 0.4;
+}
+
+@media (max-width: 768px) {
+  .visualArrow {
+    transform: rotate(90deg);
+  }
+
+  .visualGrid {
+    flex-direction: column;
+  }
+}

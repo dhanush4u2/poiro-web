@@ -1,0 +1,211 @@
+.footer {
+  background: #000;
+  padding: 30px 7% 30px;
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Image card — 2:1 aspect ratio ── */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 1;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.footerImage {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.15) 28%, transparent 52%),
+    linear-gradient(to bottom, rgba(0,0,0,0.12) 0%, transparent 18%),
+    radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.38) 100%);
+  pointer-events: none;
+}
+
+/* ── Center content ── */
+.content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 2;
+  /* push center text up to leave room for bottom bar (~90px) */
+  padding-bottom: 90px;
+}
+
+.tagline {
+  font-size: var(--text-base);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: var(--font-weight-regular);
+  letter-spacing: 0.01em;
+  margin-bottom: 10px;
+  will-change: transform, opacity, filter;
+}
+
+.heading {
+  font-size: clamp(2.4rem, 5vw, 5rem);
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  margin-bottom: 32px;
+  will-change: transform, opacity, filter;
+}
+
+.heading em {
+  font-style: italic;
+  font-weight: var(--font-weight-regular);
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  will-change: transform, opacity, filter;
+  padding: 12px 32px;
+  background: rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 9999px;
+  color: #fff;
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.04em;
+  transition:
+    background var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+.ctaButton:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+/* ── Divider line ── */
+.divider {
+  position: absolute;
+  bottom: 72px;
+  left: 32px;
+  right: 32px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 3;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* ── Bottom bar — inside the card ── */
+.bottomBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px 28px;
+}
+
+.copyright {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  letter-spacing: 0.015em;
+}
+
+.email {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.015em;
+  transition: color var(--duration-fast) ease;
+}
+
+.email:hover {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.015em;
+  transition: color var(--duration-fast) ease;
+}
+
+.link:hover {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .footer {
+    padding: 20px 5% 0px;
+  }
+
+  .imageContainer {
+    aspect-ratio: 3 / 2;
+    border-radius: 12px;
+  }
+
+  .divider {
+    left: 20px;
+    right: 20px;
+    bottom: 68px;
+  }
+
+  .bottomBar {
+    padding: 16px 20px 24px;
+  }
+
+  .email {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .imageContainer {
+    aspect-ratio: 4 / 3;
+  }
+
+  .divider {
+    left: 14px;
+    right: 14px;
+    bottom: 60px;
+  }
+
+  .bottomBar {
+    padding: 14px 14px 20px;
+  }
+
+  .links {
+    gap: 14px;
+  }
+}

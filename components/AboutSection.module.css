@@ -1,0 +1,159 @@
+/* ── Outer section — tall enough for scroll-driven animation ── */
+.section {
+  position: relative;
+  height: 400vh;
+  background-color: #050505;
+  /* Card slides over the pinned Hero */
+  border-radius: 24px 24px 0 0;
+  z-index: 10;
+  /* Depth shadow to reinforce the "card above card" look */
+  box-shadow: 0 -12px 60px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Sticky viewport-height panel ── */
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 24px 24px 0 0;
+  
+  /* Apply grid background here so it remains physically static during the 400vh scroll */
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 2px, transparent 2px);
+  background-size: 48px 48px;
+  background-position: center top;
+}
+
+/* ── Text block ── */
+.textWrap {
+  text-align: center;
+  font-family: var(--font-cormorant), Georgia, serif;
+  line-height: 1.15;
+  font-size: clamp(32px, 4.5vw, 68px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  max-width: min(1300px, 90vw);
+  margin-top: -12vh;
+  /* Prevent layout shift on re-renders */
+  will-change: contents;
+}
+
+/* ── Logo band ── */
+.logoBand {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(88vw, 1380px);
+  display: flex;
+  align-items: center;
+  gap: 56px;
+}
+
+/* Badge */
+.badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bracketSvg {
+  opacity: 0.3;
+}
+
+.bracketFlip {
+  transform: scaleX(-1);
+}
+
+.badgeText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.35;
+  gap: 2px;
+}
+
+.badgeCount {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.3px;
+}
+
+.badgeLabel {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+/* Logo marquee */
+.logoScroll {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  mask-image: linear-gradient(to right, transparent, black 4%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 94%, transparent);
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.mqTrack {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.logoItem {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 0 35px;
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.hashPrefix {
+  margin-right: 3px;
+  opacity: 0.5;
+}
+
+.regMark {
+  margin-left: 3px;
+  font-size: 0.7em;
+  opacity: 0.45;
+  vertical-align: super;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .section {
+    border-radius: 16px 16px 0 0;
+    margin-top: -16px;
+  }
+
+  .sticky {
+    border-radius: 16px 16px 0 0;
+  }
+
+  .logoBand {
+    width: 90vw;
+    bottom: 56px;
+    gap: 24px;
+  }
+
+  .badge {
+    display: none;
+  }
+}
