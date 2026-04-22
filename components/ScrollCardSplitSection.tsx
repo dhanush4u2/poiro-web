@@ -31,8 +31,8 @@ const CARDS: CardData[] = [
       <path d="M2 12C6 5 10 5 14 9S20 14 24 7" stroke="#161616" stroke-width="1.6" stroke-linecap="round" fill="none"/>
       <path d="M21 4l4 4-4 4" stroke="#161616" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>`,
-    title: "Going\nZero to One",
-    sub: "If you're navigating a new business unit, or a new venture entirely, or breaking into a new market",
+    title: "Curate &\nIdeate",
+    sub: "Discover trends and build context-rich briefs that align your vision seamlessly.",
   },
   {
     back: "linear-gradient(150deg, #e83535 0%, #c41e1e 48%, #8f1010 100%)",
@@ -43,8 +43,8 @@ const CARDS: CardData[] = [
       <circle cx="15" cy="6"  r="4" stroke="rgba(255,255,255,0.82)" stroke-width="1.5"/>
       <circle cx="12" cy="14" r="4" stroke="rgba(255,255,255,0.82)" stroke-width="1.5"/>
     </svg>`,
-    title: "Scaling from\nOne to N",
-    sub: "If you've achieved Product/Service Market Fit, and are looking to scale your business to new heights",
+    title: "Generate &\nScale",
+    sub: "Instantly produce everything from social hooks to full-scale TV commercials with AI.",
   },
   {
     back: "linear-gradient(150deg, #222222 0%, #1a1a1a 60%, #111111 100%)",
@@ -55,8 +55,8 @@ const CARDS: CardData[] = [
       <path d="M11 1.5L13 9.5L21 11L13 13L11 21L9 13L1 11L9 9.5Z"
         stroke="rgba(255,255,255,0.5)" stroke-width="1.4" fill="none" stroke-linejoin="round"/>
     </svg>`,
-    title: "Need Quick\nSolutions",
-    sub: "If you know exactly what you want and need a team that can step in and quickly help you with it",
+    title: "Build &\nAutomate",
+    sub: "Turn your best proprietary workflows into simple, no-code apps to empower your team.",
   },
 ];
 
@@ -215,7 +215,7 @@ export default function ScrollCardSplitSection() {
               willChange: "opacity, transform",
             }}
           >
-            Where are you <em>in</em> your journey?
+            One platform <em>for</em> every creative need
           </h2>
 
           {/* ── Scale wrapper (scroll-driven) ───────────────── */}
@@ -241,8 +241,7 @@ export default function ScrollCardSplitSection() {
                   style={{
                     position: "absolute",
                     inset: 0,
-                    background:
-                      "linear-gradient(150deg, #ff7a2f 0%, #f5a11e 55%, #e8821a 100%)",
+                    background: "url('/assets/grass.png') center / 100% 100% no-repeat",
                     borderRadius: R,
                     zIndex: 10,
                     opacity: frontOpacity,
@@ -310,15 +309,16 @@ export default function ScrollCardSplitSection() {
                           willChange: "transform",
                         }}
                       >
-                        {/* Front face — orange */}
+                        {/* Front face — image */}
                         <div
                           style={{
                             position: "absolute",
                             inset: 0,
                             backfaceVisibility: "hidden",
                             WebkitBackfaceVisibility: "hidden",
-                            background:
-                              "linear-gradient(150deg, #ff7a2f 0%, #f5a11e 55%, #e8821a 100%)",
+                            background: "url('/assets/grass.png') no-repeat",
+                            backgroundSize: "300% 100%",
+                            backgroundPosition: `${(i / 2) * 100}% center`,
                             borderRadius: radiusFront,
                           }}
                         />

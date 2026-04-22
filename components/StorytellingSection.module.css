@@ -14,8 +14,9 @@
 }
 
 .heading {
+  font-family: var(--font-cormorant, 'Cormorant Garamond', Georgia, serif);
   font-size: clamp(var(--text-4xl), 6vw, var(--text-7xl));
-  font-weight: var(--font-weight-extrabold);
+  font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);

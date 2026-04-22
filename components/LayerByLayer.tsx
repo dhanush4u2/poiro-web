@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Highlighter } from "@/components/TextHighlighter";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,17 +20,10 @@ export default function LayerByLayer() {
   const headingRef  = useRef<HTMLHeadingElement>(null);
   const itemsRef    = useRef<HTMLUListElement>(null);
 
-  const [showLayers, setShowLayers] = useState<boolean[]>(
-    new Array(LAYERS.length).fill(false)
-  );
-
   useEffect(() => {
     if (!sectionRef.current) return;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) {
-      setShowLayers(new Array(LAYERS.length).fill(true));
-      return;
-    }
+    if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
       /* Video: fade + scale (no blur — keeps video playback smooth) */
@@ -88,15 +80,6 @@ export default function LayerByLayer() {
                 start: `top ${78 - i * 6}%`,
                 end: `top ${28 - i * 4}%`,
                 scrub: 1,
-                onUpdate: (self) => {
-                  const isActive = self.progress > 0.3;
-                  setShowLayers((prev) => {
-                    if (prev[i] === isActive) return prev;
-                    const next = [...prev];
-                    next[i] = isActive;
-                    return next;
-                  });
-                },
               },
             }
           );
@@ -178,9 +161,9 @@ export default function LayerByLayer() {
             <h2
               ref={headingRef}
               style={{
-                fontFamily: "var(--font-family)",
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
                 fontSize: "clamp(36px, 4vw, 56px)",
-                fontWeight: 800,
+                fontWeight: 400,
                 letterSpacing: "-0.02em",
                 lineHeight: 1.1,
                 color: "var(--color-text-primary)",
@@ -232,15 +215,7 @@ export default function LayerByLayer() {
                     }}
                   >
                     <strong style={{ fontWeight: 700 }}>
-                      <Highlighter
-                        show={showLayers[index]}
-                        action="underline"
-                        color="#ff8015"
-                        padding={3}
-                      >
-                        {layer.label}
-                      </Highlighter>
-                      :
+                      {layer.label}:
                     </strong>{" "}
                     <span style={{ color: "var(--color-text-secondary)" }}>
                       {layer.detail}

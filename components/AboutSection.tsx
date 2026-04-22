@@ -18,10 +18,10 @@ const inter = Inter({
 });
 
 const LINES = [
-  'We craft brand identities, narratives, and digital',
-  'experiences that keep up with your ambition.',
-  'So you can focus on building what matters,',
-  'while we shape how the world sees it.',
+  'We build the creative operating system that empowers',
+  'ambitious brands to scale their storytelling.',
+  'Combining intelligent curation with limitless generation,',
+  'Poiro engineers the future of your content.',
 ];
 
 interface CharItem { char: string; br: boolean }
@@ -36,13 +36,14 @@ function buildChars(lines: string[]): CharItem[] {
   return chars;
 }
 
-const LOGOS = [
-  { name: 'Schbang.',             hash: true  },
-  { name: 'ISKCON',               caps: true  },
-  { name: 'the moms co.',         italic: true },
-  { name: 'unicef',               reg: true   },
-  { name: 'BURGER BAE',           wide: true  },
-  { name: 'Flipkart Commerce Cloud', small: true },
+const IMAGE_LOGOS = [
+  '/logos/chumbak.webp',
+  '/logos/EFPY.webp',
+  '/logos/imara.webp',
+  '/logos/godrej.webp',
+  '/logos/foramour.webp',
+  '/logos/greenfields.webp',
+  '/logos/stella.webp',
 ];
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -104,8 +105,8 @@ export default function AboutSection() {
               <path d="M10 7C8 10 6 13 6 17S8 24 10 27" stroke="#fff" strokeWidth="0.6" fill="none"/>
             </svg>
             <div className={styles.badgeText}>
-              <span className={styles.badgeCount}>Trusted by 60+</span>
-              <span className={styles.badgeLabel}>Organizations</span>
+              <span className={styles.badgeCount}>Powering</span>
+              <span className={styles.badgeLabel}>Creative Teams</span>
             </div>
             <svg width="32" height="54" viewBox="0 0 20 34" fill="none" aria-hidden="true" className={`${styles.bracketSvg} ${styles.bracketFlip}`}>
               <path d="M16 2C12 6 9 11 9 17S12 28 16 32" stroke="#fff" strokeWidth="1" fill="none"/>
@@ -114,26 +115,51 @@ export default function AboutSection() {
             </svg>
           </div>
 
-          {/* Scrolling logos */}
+          {/* Seamless infinite marquee: two identical tracks animating -100% */}
           <div className={styles.logoScroll}>
             <div className={styles.mqTrack}>
-              {Array.from({ length: 8 }, () => LOGOS).flat().map((l, i) => (
-                <span
-                  key={i}
-                  className={styles.logoItem}
-                  style={{
-                    fontFamily: l.italic || l.hash
-                      ? 'var(--font-cormorant), serif'
-                      : 'var(--font-inter), sans-serif',
-                    fontSize:   l.wide || l.caps ? 24 : l.small ? 20 : 32,
-                    fontWeight: l.wide ? 800 : l.caps ? 700 : l.hash ? 600 : 400,
-                    fontStyle:  l.italic ? 'italic' : 'normal',
-                    letterSpacing: l.wide ? '3px' : l.caps ? '2px' : '0.3px',
-                  }}
-                >
-                  {l.hash && <span className={styles.hashPrefix}>#</span>}
-                  {l.name}
-                  {l.reg  && <sup className={styles.regMark}>®</sup>}
+              {Array.from({ length: 4 }, () => IMAGE_LOGOS).flat().map((src, i) => (
+                <span key={`t1-${i}`} className={styles.logoItem}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt=""
+                    aria-hidden="true"
+                    style={{
+                      height: 64, /* Increased layout height instead of scaling */
+                      width: 'auto',
+                      objectFit: 'contain',
+                      display: 'block',
+                      filter: 'brightness(0) invert(1)',
+                      opacity: 0.85,
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                      flexShrink: 0,
+                    }}
+                  />
+                </span>
+              ))}
+            </div>
+            <div className={styles.mqTrack}>
+              {Array.from({ length: 4 }, () => IMAGE_LOGOS).flat().map((src, i) => (
+                <span key={`t2-${i}`} className={styles.logoItem}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt=""
+                    aria-hidden="true"
+                    style={{
+                      height: 64, /* Increased layout height instead of scaling */
+                      width: 'auto',
+                      objectFit: 'contain',
+                      display: 'block',
+                      filter: 'brightness(0) invert(1)',
+                      opacity: 0.85,
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                      flexShrink: 0,
+                    }}
+                  />
                 </span>
               ))}
             </div>

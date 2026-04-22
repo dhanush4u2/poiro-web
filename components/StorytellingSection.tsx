@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Highlighter } from "@/components/TextHighlighter";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,15 +12,10 @@ export default function StorytellingSection() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const descRef = useRef<HTMLParagraphElement>(null);
 
-  const [showH1, setShowH1] = useState(false);
-
   useEffect(() => {
     if (!sectionRef.current) return;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) {
-      setShowH1(true);
-      return;
-    }
+    if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
       const baseTrigger = {
@@ -47,14 +41,7 @@ export default function StorytellingSection() {
           y: 0,
           filter: "blur(0px)",
           ease: "none",
-          scrollTrigger: {
-            ...baseTrigger,
-            start: "top 80%",
-            end: "top 25%",
-            onUpdate: (self) => {
-              setShowH1(self.progress > 0.4);
-            },
-          },
+          scrollTrigger: { ...baseTrigger, start: "top 80%", end: "top 25%" },
         }
       );
 
@@ -67,11 +54,7 @@ export default function StorytellingSection() {
           y: 0,
           filter: "blur(0px)",
           ease: "none",
-          scrollTrigger: {
-            ...baseTrigger,
-            start: "top 75%",
-            end: "top 20%",
-          },
+          scrollTrigger: { ...baseTrigger, start: "top 75%", end: "top 20%" },
         }
       );
     }, sectionRef);
@@ -133,9 +116,9 @@ export default function StorytellingSection() {
         <h2
           ref={headingRef}
           style={{
-            fontFamily: "var(--font-family)",
+            fontFamily: "'Cormorant Garamond', Georgia, serif",
             fontSize: "clamp(40px, 7vw, 80px)",
-            fontWeight: 700,
+            fontWeight: 400,
             lineHeight: 1.05,
             letterSpacing: "-0.02em",
             color: "var(--color-text-primary)",
@@ -144,10 +127,7 @@ export default function StorytellingSection() {
             opacity: 0,
           }}
         >
-          Storytelling ≠{" "}
-          <Highlighter show={showH1} action="crossed-off" color="#ff8015" padding={3} strokeWidth={3}>
-            Prompting
-          </Highlighter>
+          Storytelling ≠ Prompting
         </h2>
 
         {/* Description */}
@@ -167,10 +147,7 @@ export default function StorytellingSection() {
           burger. Each element works together to build strong brand identity,
           drive engagement, and create lasting recall. Poiro engineers every
           layer with precision, so your brand only has to show up with what no
-          one else has:{" "}
-          <Highlighter show={showH1} action="underline" color="#ff8015" padding={3} strokeWidth={3}>
-            your secret sauce.
-          </Highlighter>
+          one else has: your secret sauce.
         </p>
       </div>
     </section>

@@ -1,108 +1,174 @@
 .section {
-  position: relative;
-  width: 100%;
-  height: 100vh;
   background: var(--color-bg);
-  overflow: hidden;
+  position: relative;
   z-index: 10;
+  padding: clamp(var(--space-16), 8vw, var(--space-24)) 0
+           clamp(var(--space-16), 8vw, var(--space-20));
 }
 
-.canvasWrap {
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(var(--space-4), 4vw, var(--space-10));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(var(--space-8), 4vw, var(--space-12));
+}
+
+/* ── Heading ──────────────────────────────────────────────────────────────── */
+
+.headingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.heading {
+  font-family: var(--font-cormorant, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(var(--text-4xl), 5.5vw, var(--text-6xl));
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+/* ── Frame card ───────────────────────────────────────────────────────────── */
+
+.card {
   position: relative;
   width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #080808;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow:
+    0 40px 100px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
 }
 
 .canvas {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  display: block;
 }
 
-/* Debug / Fallback View */
-.debugView {
-  width: 100%;
-  height: 100%;
+/* ── Arrow buttons ────────────────────────────────────────────────────────── */
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(8, 8, 8, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg);
-  position: relative;
+  cursor: pointer;
+  color: white;
+  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+  padding: 0;
 }
 
-.debugContent {
+.arrowLeft  { left:  clamp(var(--space-3), 2vw, var(--space-5)); }
+.arrowRight { right: clamp(var(--space-3), 2vw, var(--space-5)); }
+
+.arrow:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.32);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.arrow:active {
+  transform: translateY(-50%) scale(0.97);
+}
+
+/* ── Sequence indicator ───────────────────────────────────────────────────── */
+
+.indicator {
+  position: absolute;
+  bottom: var(--space-4);
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-4);
-  z-index: 2;
+  gap: var(--space-2);
+  z-index: 10;
+  pointer-events: none;
 }
 
-.debugFrame {
+.dots {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  pointer-events: all;
 }
 
-.debugFrameNum {
-  font-size: clamp(var(--text-7xl), 15vw, 12rem);
-  font-weight: var(--font-weight-extrabold);
-  color: var(--color-primary);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.05em;
-  line-height: 1;
-  opacity: 0.9;
-  text-shadow: 0 0 80px rgba(255, 128, 21, 0.3);
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  border: none;
+  background: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.3s ease, width 0.3s ease, border-radius 0.3s ease;
+  flex-shrink: 0;
 }
 
-.debugLabel {
-  font-size: var(--text-xl);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  font-variant-numeric: tabular-nums;
+.dot[data-active='true'] {
+  width: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 3px;
 }
 
-.debugBarWrap {
-  width: min(400px, 80vw);
-  height: 4px;
-  background: var(--color-surface-raised);
-  border-radius: 2px;
-  overflow: hidden;
+.dot:hover {
+  background: rgba(255, 255, 255, 0.55);
 }
 
-.debugBar {
-  height: 100%;
-  background: var(--color-primary);
-  border-radius: 2px;
-  transition: width 0.1s linear;
+.seqLabel {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
-.debugHint {
-  font-size: var(--text-sm);
-  color: var(--color-text-muted);
-  margin-top: var(--space-2);
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .arrowLeft  { left:  var(--space-2); }
+  .arrowRight { right: var(--space-2); }
 }
 
-/* Side progress bar */
-.progressWrap {
-  position: absolute;
-  right: var(--space-4);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 2px;
-  height: 120px;
-  background: var(--color-border);
-  border-radius: 1px;
-  overflow: hidden;
-  z-index: 3;
-}
-
-.progressBar {
-  width: 100%;
-  background: var(--color-primary);
-  border-radius: 1px;
-  transition: height 0.1s linear;
+@media (max-width: 480px) {
+  .arrow {
+    display: none;
+  }
 }

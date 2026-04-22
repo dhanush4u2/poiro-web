@@ -1,0 +1,308 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import Masonry, { type MasonryItem } from "@/components/Masonry";
+
+type TabConfig = { label: string; folder: string };
+
+const TABS: TabConfig[] = [
+  { label: "Short Form",     folder: "short-form"    },
+  { label: "Statics",        folder: "statics"       },
+  { label: "UGC / Affiliate",folder: "ugc-affiliate" },
+  { label: "TVC / Animatics",folder: "tvc-animatics" },
+];
+
+type MasonryApiResponse = { media?: Array<{ src: string; type: "image" | "video" }> };
+
+// Deterministic per-item aspect jitter so the grid never looks uniform
+function hashToUnit(seed: string): number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  return (Math.abs(hash) % 1000) / 1000;
+}
+
+function mapDisplayAspect(src: number, seed: string): number {
+  const aspect = Number.isFinite(src) && src > 0 ? src : 1;
+  const jitter = (hashToUnit(seed) - 0.5) * 0.08;
+  if (aspect >= 1.35) return Math.min(2.0,  Math.max(1.35, aspect * (1 + jitter)));
+  if (aspect <= 0.78) return Math.min(0.78, Math.max(0.5,  aspect * (1 + jitter)));
+  return Math.min(1.15, Math.max(0.85, aspect * (1 + jitter)));
+}
+
+async function precomputeMedia(items: MasonryItem[]): Promise<MasonryItem[]> {
+  return Promise.all(
+    items.map(
+      (item) =>
+        new Promise<MasonryItem>((resolve) => {
+          if (item.type === "video") {
+            resolve({ ...item, aspectRatio: 9 / 16 });
+            return;
+          }
+          const img = new window.Image();
+          img.src = item.src;
+          img.onload = () => {
+            const r =
+              img.naturalWidth > 0 && img.naturalHeight > 0
+                ? img.naturalWidth / img.naturalHeight
+                : 1;
+            resolve({ ...item, aspectRatio: mapDisplayAspect(r, item.id) });
+          };
+          img.onerror = () =>
+            resolve({ ...item, aspectRatio: mapDisplayAspect(1, item.id) });
+        })
+    )
+  );
+}
+
+async function loadCategoryItems(folder: string): Promise<MasonryItem[]> {
+  try {
+    const res = await fetch(
+      `/api/masonry?folder=${encodeURIComponent(folder)}`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) return [];
+    const data = (await res.json()) as MasonryApiResponse;
+    const media = Array.isArray(data.media) ? data.media : [];
+    return media.map((item, i) => ({
+      id: `${folder}-${i + 1}`,
+      src: item.src,
+      type: item.type,
+      url: "https://showcase.poiroscope.com",
+      aspectRatio: 1,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+export default function MasonryGallerySection() {
+  const sectionRef       = useRef<HTMLElement | null>(null);
+  const hasBootstrapped  = useRef(false);
+
+  const [activeTab, setActiveTab]         = useState<TabConfig>(TABS[0]);
+  const [items, setItems]                 = useState<MasonryItem[]>([]);
+  const [itemsByFolder, setItemsByFolder] = useState<Record<string, MasonryItem[]>>({});
+  const [isSwitching, setIsSwitching]     = useState(false);
+  const [hasEntered, setHasEntered]       = useState(false);
+  const [animationCycle, setAnimationCycle] = useState(0);
+
+  // Bootstrap: load active tab immediately, warm others during idle time
+  useEffect(() => {
+    if (hasBootstrapped.current) return;
+    hasBootstrapped.current = true;
+    let cancelled = false;
+
+    const bootstrap = async () => {
+      const loaded     = await loadCategoryItems(activeTab.folder);
+      const computed   = await precomputeMedia(loaded);
+      if (cancelled) return;
+
+      setItemsByFolder({ [activeTab.folder]: computed });
+      setItems(computed);
+
+      const warmRest = async () => {
+        for (const tab of TABS) {
+          if (cancelled || tab.folder === activeTab.folder) continue;
+          const l = await loadCategoryItems(tab.folder);
+          const c = await precomputeMedia(l);
+          if (cancelled) return;
+          setItemsByFolder((prev) => ({ ...prev, [tab.folder]: c }));
+        }
+      };
+
+      if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+        (window as Window & { requestIdleCallback: (cb: () => void) => number })
+          .requestIdleCallback(() => { void warmRest(); });
+      } else {
+        setTimeout(() => { void warmRest(); }, 300);
+      }
+    };
+
+    void bootstrap();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Intersection observer — trigger entrance animation once
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setHasEntered(true);
+        setAnimationCycle((n) => n + 1);
+        observer.disconnect();
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+    );
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleTabChange = async (tab: TabConfig) => {
+    if (tab.folder === activeTab.folder || isSwitching) return;
+    setIsSwitching(true);
+
+    const cached = itemsByFolder[tab.folder];
+    if (cached) {
+      setItems(cached);
+      setActiveTab(tab);
+      setAnimationCycle((n) => n + 1);
+      setIsSwitching(false);
+      return;
+    }
+
+    const loaded   = await loadCategoryItems(tab.folder);
+    const computed = await precomputeMedia(loaded);
+    setItemsByFolder((prev) => ({ ...prev, [tab.folder]: computed }));
+    setItems(computed);
+    setActiveTab(tab);
+    setAnimationCycle((n) => n + 1);
+    setIsSwitching(false);
+  };
+
+  const tabBase = useMemo<React.CSSProperties>(
+    () => ({
+      fontFamily: "var(--font-family)",
+      fontSize: "0.80rem",
+      fontWeight: 600,
+      letterSpacing: "0.15em",
+      textTransform: "uppercase",
+      border: "1px solid",
+      borderRadius: 12,
+      padding: "10px 18px",
+      cursor: "pointer",
+      backdropFilter: "blur(10px)",
+      transition: "background 0.2s ease, color 0.2s ease, border-color 0.2s ease",
+    }),
+    []
+  );
+
+  return (
+    <>
+
+      <section
+        ref={sectionRef}
+        id="gallery"
+        style={{
+          background: "#000",
+          position: "relative",
+          zIndex: 10,
+          paddingTop:    "clamp(120px, 16vw, 200px)",
+          paddingBottom: "clamp(80px,  10vw, 140px)",
+          paddingLeft:   "clamp(18px,  4vw,  48px)",
+          paddingRight:  "clamp(18px,  4vw,  48px)",
+        }}
+      >
+        <div style={{ maxWidth: 1400, margin: "0 auto", width: "100%" }}>
+
+          {/* ── Header ──────────────────────────────────────── */}
+          <div style={{ paddingLeft: "clamp(6px,1vw,14px)", paddingRight: "clamp(6px,1vw,14px)" }}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-family)",
+                  fontSize: "0.80rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  color: "#ffffff",
+                  background: "#ff8015",
+                  borderRadius: 9999,
+                  padding: "8px 24px 10px",
+                  boxShadow: "0 4px 14px rgba(255,128,21,0.4)",
+                  display: "inline-block",
+                }}
+              >
+                Gallery
+              </span>
+            </div>
+
+            <h2
+              style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: "clamp(40px, 6vw, 72px)",
+                fontWeight: 400,
+                letterSpacing: "-0.02em",
+                lineHeight: 1.05,
+                color: "#ffffff",
+                textAlign: "center",
+                marginTop: "clamp(24px, 3vw, 40px)",
+                marginBottom: 0,
+                paddingBottom: "clamp(4px, 0.6vw, 10px)",
+              }}
+            >
+              Our Work
+            </h2>
+
+            {/* Divider */}
+            <div
+              style={{
+                marginTop:    "clamp(20px, 2.8vw, 34px)",
+                marginBottom: "clamp(24px, 3.2vw, 40px)",
+                height: 1,
+                width: "100%",
+                background:
+                  "linear-gradient(to right, rgba(0,0,0,0), rgba(68,68,68,1), rgba(0,0,0,0))",
+              }}
+            />
+          </div>
+
+          {/* ── Tabs ────────────────────────────────────────── */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: 12,
+              marginBottom: "clamp(32px, 4vw, 52px)",
+            }}
+          >
+            {TABS.map((tab) => {
+              const active = tab.folder === activeTab.folder;
+              return (
+                <button
+                  key={tab.folder}
+                  type="button"
+                  onClick={() => { void handleTabChange(tab); }}
+                  disabled={isSwitching}
+                  style={{
+                    ...tabBase,
+                    background:   active ? "rgba(255,95,31,0.15)" : "rgba(255,255,255,0.04)",
+                    color:        active ? "#ffffff" : "var(--color-text-secondary)",
+                    borderColor:  active ? "#ff8015" : "#374151",
+                    opacity:      isSwitching && !active ? 0.65 : 1,
+                  }}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* ── Masonry grid ────────────────────────────────── */}
+          {hasEntered ? (
+            <Masonry
+              items={items}
+              ease="power3.out"
+              duration={0.6}
+              stagger={0.05}
+              animateFrom="bottom"
+              gap={20}
+              scaleOnHover
+              hoverScale={0.97}
+              blurToFocus
+              colorShiftOnHover={false}
+              animationKey={animationCycle}
+            />
+          ) : (
+            <div style={{ minHeight: "clamp(480px, 60vw, 800px)" }} />
+          )}
+        </div>
+      </section>
+    </>
+  );
+}

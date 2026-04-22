@@ -1,7 +1,16 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ??
@@ -44,7 +53,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cormorant.variable}>
       <body>
         <SmoothScroll>
           <Navbar />

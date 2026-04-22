@@ -5,8 +5,8 @@ import StorytellingSection from "@/components/StorytellingSection";
 import LayerByLayer from "@/components/LayerByLayer";
 import OperatingSystemSection from "@/components/OperatingSystemSection";
 import VideoScrub from "@/components/VideoScrub";
-import Gallery from "@/components/Gallery";
-import SendIdea from "@/components/SendIdea";
+import MasonryGallerySection from "@/components/MasonryGallerySection";
+import BriefCTASection from "@/components/BriefCTASection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -22,8 +22,8 @@ export default function Home() {
       <LayerByLayer />
       <OperatingSystemSection />
       <VideoScrub />
-      <Gallery />
-      <SendIdea />
+      <MasonryGallerySection />
+      <BriefCTASection />
       <Footer />
     </>
   );
