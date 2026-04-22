@@ -18,10 +18,10 @@ const inter = Inter({
 });
 
 const LINES = [
-  'We craft brand identities, narratives, and digital',
-  'experiences that keep up with your ambition.',
-  'So you can focus on building what matters,',
-  'while we shape how the world sees it.',
+  'We build the creative operating system that empowers',
+  'ambitious brands to scale their storytelling.',
+  'Combining intelligent curation with limitless generation,',
+  'Poiro engineers the future of your content.',
 ];
 
 interface CharItem { char: string; br: boolean }
@@ -105,8 +105,8 @@ export default function AboutSection() {
               <path d="M10 7C8 10 6 13 6 17S8 24 10 27" stroke="#fff" strokeWidth="0.6" fill="none"/>
             </svg>
             <div className={styles.badgeText}>
-              <span className={styles.badgeCount}>Trusted by 60+</span>
-              <span className={styles.badgeLabel}>Organizations</span>
+              <span className={styles.badgeCount}>Powering</span>
+              <span className={styles.badgeLabel}>Creative Teams</span>
             </div>
             <svg width="32" height="54" viewBox="0 0 20 34" fill="none" aria-hidden="true" className={`${styles.bracketSvg} ${styles.bracketFlip}`}>
               <path d="M16 2C12 6 9 11 9 17S12 28 16 32" stroke="#fff" strokeWidth="1" fill="none"/>
@@ -115,23 +115,46 @@ export default function AboutSection() {
             </svg>
           </div>
 
-          {/* Scrolling logos — duplicated 8× so the -50% translate loops seamlessly */}
+          {/* Seamless infinite marquee: two identical tracks animating -100% */}
           <div className={styles.logoScroll}>
             <div className={styles.mqTrack}>
-              {Array.from({ length: 8 }, () => IMAGE_LOGOS).flat().map((src, i) => (
-                <span key={i} className={styles.logoItem}>
+              {Array.from({ length: 4 }, () => IMAGE_LOGOS).flat().map((src, i) => (
+                <span key={`t1-${i}`} className={styles.logoItem}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={src}
                     alt=""
                     aria-hidden="true"
                     style={{
-                      height: 28,
+                      height: 64, /* Increased layout height instead of scaling */
                       width: 'auto',
                       objectFit: 'contain',
                       display: 'block',
                       filter: 'brightness(0) invert(1)',
-                      opacity: 0.45,
+                      opacity: 0.85,
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                      flexShrink: 0,
+                    }}
+                  />
+                </span>
+              ))}
+            </div>
+            <div className={styles.mqTrack}>
+              {Array.from({ length: 4 }, () => IMAGE_LOGOS).flat().map((src, i) => (
+                <span key={`t2-${i}`} className={styles.logoItem}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt=""
+                    aria-hidden="true"
+                    style={{
+                      height: 64, /* Increased layout height instead of scaling */
+                      width: 'auto',
+                      objectFit: 'contain',
+                      display: 'block',
+                      filter: 'brightness(0) invert(1)',
+                      opacity: 0.85,
                       userSelect: 'none',
                       pointerEvents: 'none',
                       flexShrink: 0,

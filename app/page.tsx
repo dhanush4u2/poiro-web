@@ -6,7 +6,7 @@ import LayerByLayer from "@/components/LayerByLayer";
 import OperatingSystemSection from "@/components/OperatingSystemSection";
 import VideoScrub from "@/components/VideoScrub";
 import MasonryGallerySection from "@/components/MasonryGallerySection";
-import SendIdea from "@/components/SendIdea";
+import BriefCTASection from "@/components/BriefCTASection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
       <OperatingSystemSection />
       <VideoScrub />
       <MasonryGallerySection />
-      <SendIdea />
+      <BriefCTASection />
       <Footer />
     </>
   );

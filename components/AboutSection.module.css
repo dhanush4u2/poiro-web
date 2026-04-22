@@ -63,7 +63,7 @@
 }
 
 .bracketSvg {
-  opacity: 0.3;
+  opacity: 0.8;
 }
 
 .bracketFlip {
@@ -82,7 +82,7 @@
   font-family: var(--font-inter), sans-serif;
   font-size: 20px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.3px;
 }
 
@@ -90,7 +90,7 @@
   font-family: var(--font-inter), sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.7);
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
@@ -101,22 +101,25 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  mask-image: linear-gradient(to right, transparent, black 4%, black 94%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  /* Increase vertical space to avoid clipping scaled-up logos */
+  padding: 40px 0;
 }
 
 @keyframes marquee {
   0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translateX(-100%); }
 }
 
 .mqTrack {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   width: max-content;
-  animation: marquee 30s linear infinite;
+  animation: marquee 60s linear infinite;
   will-change: transform;
-  /* Force GPU layer so the loop reset is never visible as a flash */
+  /* Force GPU layer */
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
 }
@@ -124,7 +127,7 @@
 .logoItem {
   flex-shrink: 0;
   white-space: nowrap;
-  padding: 0 35px;
+  padding: 0 36px; /* Reduced by ~20% */
   color: rgba(255, 255, 255, 0.38);
 }
 
