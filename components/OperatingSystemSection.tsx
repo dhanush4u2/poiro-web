@@ -3,91 +3,58 @@
 import { useState } from "react";
 import Image from "next/image";
 
-// ── Service data ──────────────────────────────────────────────────────────────
-const SERVICES = [
+// ── Product data ──────────────────────────────────────────────────────────────
+interface Service {
+  num: string;
+  label: string;
+  title: string;
+  desc: string;
+  img: string;
+  video?: string; // optional: renders a looping video instead of a static image
+  imgAlt: string;
+}
+
+const SERVICES: Service[] = [
   {
     num: "01",
-    title: "Brand Strategy",
-    items: [
-      "Brand Positioning",
-      "Logo Design",
-      "Brand Guidelines",
-      "Pitch Decks",
-      "Packaging Design",
-      "Brand Revamps",
-    ],
-    img: "/os/brand_strategy.avif",
-    imgAlt: "Brand Strategy",
+    label: "Curate Context",
+    title: "Brand Cosmos",
+    desc: "Tap into a living universe of trends and audience signals to create content your consumers can't scroll past. Tracking the best brands and creators in your category, Brand Cosmos parses thousands of hours of content to surface the most compelling ideas, storylines, visual concepts and hooks, so inspiration is never more than a search away. Stay ahead of the curve, always.",
+    img: "/os/brand-cosmos.webp",
+    video: "/os/Brand-Cosmos.mp4",
+    imgAlt: "Brand Cosmos",
   },
   {
     num: "02",
-    title: "Websites",
-    items: [
-      "Website Design & Development",
-      "Web Apps & Platforms",
-      "Web Revamps",
-      "Conversion Rate Optimisations",
-      "Search Engine Optimisation (SEO)",
-      "Website Management",
-    ],
-    img: "/os/websites.avif",
-    imgAlt: "Websites",
+    label: "Ideate & Communicate",
+    title: "Atlas",
+    desc: "Where great ideas become brilliant briefs, and creative teams finally work as one. Ideate with an intelligent briefing agent, curate references from across the web, generate samples and manage feedback, all in one place, so your creative team nails it on the very first iteration. From first spark to final delivery, all in one place.",
+    img: "/os/atlas.webp",
+    imgAlt: "Atlas",
   },
   {
     num: "03",
-    title: "Product Design",
-    items: [
-      "User Research & Analysis",
-      "UX Audits",
-      "MVP Planning & Design",
-      "UI Design & Prototyping",
-      "Product Management",
-    ],
-    img: "/os/brand_design.avif",
-    imgAlt: "Product Design",
+    label: "Create Limitlessly",
+    title: "Infinite Flow",
+    desc: "From six-second hooks to full-scale TVCs, unleash visual stories at a scale you never thought possible. Collaboratively build creative workflows, choose from 100+ AI models and proprietary pipelines, and take precise control over every step across every channel, every format, every brief. Your imagination is the only limit.",
+    img: "/os/infinite-flow.webp",
+    imgAlt: "Infinite Flow",
   },
   {
     num: "04",
-    title: "AI-Powered\nSolutions",
-    items: [
-      "AI Applications",
-      "Agentic AI Orchestration",
-      "SaaS Products",
-      "AI Chatbots",
-      "AI Automations",
-      "Intelligent Integrations",
-    ],
-    img: "/os/ai_solutions.avif",
-    imgAlt: "AI-Powered Solutions",
+    label: "Build Apps",
+    title: "App Studio",
+    desc: "Turn your creative workflows into powerful no-code apps, so your best ideas scale without limits. Convert even your most complex creative workflows into simple, intuitive apps and put the power of world-class content creation in the hands of everyone in your organisation. Build once, create forever.",
+    img: "/os/appstudio.webp",
+    imgAlt: "App Studio",
   },
   {
     num: "05",
-    title: "Motion Design",
-    items: [
-      "Motion Graphics",
-      "Explainer Videos",
-      "Brand Launch Videos",
-      "Interactive Presentations",
-    ],
-    img: "/os/motion_design.avif",
-    imgAlt: "Motion Design",
-  },
-  {
-    num: "06",
-    title: "Full-stack\nMarketing",
-    items: [
-      "Marketing & Growth Strategy",
-      "Emails & Newsletters",
-      "Copywriting",
-      "Technical Content Writing",
-      "Campaigns",
-      "Social Media Management",
-      "Community, Events, Podcasts",
-      "Strategic Partnerships",
-      "Personal Brand Management",
-    ],
-    img: "/os/full_stack.avif",
-    imgAlt: "Full-stack Marketing",
+    label: "Final Touch",
+    title: "Poiro Studio",
+    desc: "Polish every pixel, perfect every frame. AI-powered editing, entirely on your terms. Edit images and videos with a level of precision and finesse that was once the preserve of the most skilled editors because no one understands your creative vision better than you. Because the details are everything.",
+    img: "/os/poiro-studio.webp",
+    imgAlt: "Poiro Studio",
   },
 ];
 
@@ -147,7 +114,7 @@ export default function OperatingSystemSection() {
               marginBottom: 24,
             }}
           >
-            Our Services
+            The Platform
           </span>
 
           {/* Main heading */}
@@ -179,8 +146,8 @@ export default function OperatingSystemSection() {
               maxWidth: 480,
             }}
           >
-            Every service built to compound — so your brand, product,
-            and growth all move in the same direction.
+            Five interconnected modules. One creative operating system
+            built to take your story from idea to impact.
           </p>
         </div>
 
@@ -214,7 +181,7 @@ export default function OperatingSystemSection() {
                     cursor: "default",
                   }}
                 >
-                  {/* Left column: number + title */}
+                  {/* Left column: number + label */}
                   <div>
                     <span
                       style={{
@@ -238,38 +205,42 @@ export default function OperatingSystemSection() {
                         letterSpacing: "-0.3px",
                         lineHeight: 1.1,
                         margin: 0,
-                        whiteSpace: "pre-line",
                       }}
                     >
-                      {svc.title}
+                      {svc.label}
                     </h3>
                   </div>
 
-                  {/* Center column: service items */}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "clamp(6px, 0.8vh, 10px)",
-                    }}
-                  >
-                    {svc.items.map((item, j) => (
-                      <span
-                        key={j}
-                        style={{
-                          fontFamily: "'Roboto', sans-serif",
-                          fontSize: "clamp(13px, 1.05vw, 15px)",
-                          fontWeight: 300,
-                          color: "rgba(255, 255, 255, 0.45)",
-                          lineHeight: 1.6,
-                        }}
-                      >
-                        {item}
-                      </span>
-                    ))}
+                  {/* Center column: product name + description */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                    <span
+                      style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: "clamp(16px, 1.4vw, 22px)",
+                        fontWeight: 500,
+                        fontStyle: "italic",
+                        color: "rgba(240, 234, 222, 0.7)",
+                        letterSpacing: "0.1px",
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {svc.title}
+                    </span>
+                    <p
+                      style={{
+                        fontFamily: "'Roboto', sans-serif",
+                        fontSize: "clamp(12px, 0.95vw, 14px)",
+                        fontWeight: 300,
+                        color: "rgba(255, 255, 255, 0.38)",
+                        lineHeight: 1.75,
+                        margin: 0,
+                      }}
+                    >
+                      {svc.desc}
+                    </p>
                   </div>
 
-                  {/* Right column: service image */}
+                  {/* Right column: service image or video */}
                   <div
                     style={{
                       width: "100%",
@@ -281,13 +252,30 @@ export default function OperatingSystemSection() {
                       transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
                     }}
                   >
-                    <Image
-                      src={svc.img}
-                      alt={svc.imgAlt}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      sizes="(max-width: 768px) 90vw, 33vw"
-                    />
+                    {svc.video ? (
+                      <video
+                        src={svc.video}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        poster={svc.img}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        src={svc.img}
+                        alt={svc.imgAlt}
+                        fill
+                        style={{ objectFit: "cover" }}
+                        sizes="(max-width: 768px) 90vw, 33vw"
+                      />
+                    )}
                   </div>
                 </div>
 

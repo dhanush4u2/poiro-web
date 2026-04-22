@@ -115,6 +115,10 @@
   align-items: center;
   width: max-content;
   animation: marquee 30s linear infinite;
+  will-change: transform;
+  /* Force GPU layer so the loop reset is never visible as a flash */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 .logoItem {

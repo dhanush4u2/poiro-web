@@ -36,13 +36,14 @@ function buildChars(lines: string[]): CharItem[] {
   return chars;
 }
 
-const LOGOS = [
-  { name: 'Schbang.',             hash: true  },
-  { name: 'ISKCON',               caps: true  },
-  { name: 'the moms co.',         italic: true },
-  { name: 'unicef',               reg: true   },
-  { name: 'BURGER BAE',           wide: true  },
-  { name: 'Flipkart Commerce Cloud', small: true },
+const IMAGE_LOGOS = [
+  '/logos/chumbak.webp',
+  '/logos/EFPY.webp',
+  '/logos/imara.webp',
+  '/logos/godrej.webp',
+  '/logos/foramour.webp',
+  '/logos/greenfields.webp',
+  '/logos/stella.webp',
 ];
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -114,26 +115,28 @@ export default function AboutSection() {
             </svg>
           </div>
 
-          {/* Scrolling logos */}
+          {/* Scrolling logos — duplicated 8× so the -50% translate loops seamlessly */}
           <div className={styles.logoScroll}>
             <div className={styles.mqTrack}>
-              {Array.from({ length: 8 }, () => LOGOS).flat().map((l, i) => (
-                <span
-                  key={i}
-                  className={styles.logoItem}
-                  style={{
-                    fontFamily: l.italic || l.hash
-                      ? 'var(--font-cormorant), serif'
-                      : 'var(--font-inter), sans-serif',
-                    fontSize:   l.wide || l.caps ? 24 : l.small ? 20 : 32,
-                    fontWeight: l.wide ? 800 : l.caps ? 700 : l.hash ? 600 : 400,
-                    fontStyle:  l.italic ? 'italic' : 'normal',
-                    letterSpacing: l.wide ? '3px' : l.caps ? '2px' : '0.3px',
-                  }}
-                >
-                  {l.hash && <span className={styles.hashPrefix}>#</span>}
-                  {l.name}
-                  {l.reg  && <sup className={styles.regMark}>®</sup>}
+              {Array.from({ length: 8 }, () => IMAGE_LOGOS).flat().map((src, i) => (
+                <span key={i} className={styles.logoItem}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={src}
+                    alt=""
+                    aria-hidden="true"
+                    style={{
+                      height: 28,
+                      width: 'auto',
+                      objectFit: 'contain',
+                      display: 'block',
+                      filter: 'brightness(0) invert(1)',
+                      opacity: 0.45,
+                      userSelect: 'none',
+                      pointerEvents: 'none',
+                      flexShrink: 0,
+                    }}
+                  />
                 </span>
               ))}
             </div>

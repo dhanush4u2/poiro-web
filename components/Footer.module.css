@@ -60,8 +60,9 @@
 }
 
 .heading {
+  font-family: var(--font-cormorant, 'Cormorant Garamond', Georgia, serif);
   font-size: clamp(2.4rem, 5vw, 5rem);
-  font-weight: var(--font-weight-bold);
+  font-weight: 400;
   color: #fff;
   line-height: 1.06;
   letter-spacing: -0.025em;
