@@ -1,17 +1,24 @@
 /* ── Outer section — black background, small inset ── */
 .hero {
-  /* ── 🛠️ HAND TWEAKING VARIABLES ── */
+  /* ── 🛠️ TWEAK VARIABLES ── */
+
   /* Hand Scaling */
   --hand-width: 44%;
   --hand-max-width: 560px;
-  
-  /* Left Hand Final Resting Position */
-  --left-hand-top: 0;    
-  --left-hand-left: 0;   
-  
-  /* Right Hand Final Resting Position */
+
+  /* Hand Positions */
+  --left-hand-top: 0;
+  --left-hand-left: 0;
   --right-hand-bottom: 0;
-  --right-hand-right: 0; 
+  --right-hand-right: 0;
+
+  /* Hero text & button */
+  --hero-heading-size: clamp(36px, 4.8vw, 76px); /* font-size of "Engineering Creativity." */
+  --hero-gap: 28px;                               /* gap between heading and button          */
+  --hero-btn-padding-v: 13px;                     /* button top/bottom padding               */
+  --hero-btn-padding-h: 52px;                     /* button left/right padding               */
+  --hero-btn-font-size: 16px;                     /* button label font-size                  */
+
   /* ──────────────────────────────── */
 
   background: #000;
@@ -103,40 +110,45 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 20px; /* Reduced gap so button is tighter to text */
+  gap: var(--hero-gap);
   padding: 0 var(--space-3);
   will-change: transform, opacity;
 }
 
 .heading {
-  font-family: var(--font-cormorant), Georgia, serif;
-  font-size: clamp(34px, 4.8vw, 76px); /* Very royal size */
+  font-family: 'Advercase', Georgia, serif;
+  font-size: var(--hero-heading-size);
   font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-transform: capitalize;
-  margin-bottom: 0; /* Reset this to let 'gap: 20px' control the tight spacing */
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: #0d0700;
+  margin: 0;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.18);
 }
 
 .ctaBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 24px;
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  transition: all 0.2s ease;
+  padding: var(--hero-btn-padding-v) var(--hero-btn-padding-h);
+  background: #0d0700;
+  color: #ff8015;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Advercase', Georgia, serif;
+  font-size: var(--hero-btn-font-size);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  box-shadow:
+    0 8px 28px rgba(0, 0, 0, 0.55),
+    0 2px 8px  rgba(0, 0, 0, 0.35);
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .ctaBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.6);
+  opacity: 0.88;
+  transform: translateY(-1px);
 }
 
 /* ── Scroll indicator ── */

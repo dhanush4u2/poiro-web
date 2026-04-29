@@ -1,85 +1,103 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useState, CSSProperties } from 'react';
 import Image from 'next/image';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import styles from './Navbar.module.css';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
-  const navBarRef = useRef<HTMLDivElement>(null);
+  const [shrunk, setShrunk] = useState(false);
 
-  /* ── Horizontal shrink as user scrolls (width-only, never hides) ── */
   useEffect(() => {
-    const bar = navBarRef.current;
-    if (!bar) return;
-
-    const calc = () => {
-      const vw = window.innerWidth;
-      return {
-        startW: Math.min(vw * 0.90, 1360),
-        endW:   Math.min(vw * 0.58, 860),
-      };
-    };
-
-    const st = ScrollTrigger.create({
-      start: window.innerHeight * 0.5,
-      end: window.innerHeight * 1.15,
-      scrub: 1.4,
-      onUpdate: (self) => {
-        const { startW, endW } = calc();
-        gsap.set(bar, { width: startW - self.progress * (startW - endW) });
-      },
-    });
-
-    /* Keep initial width synced before first scroll event */
-    const { startW } = calc();
-    gsap.set(bar, { width: startW });
-
-    /* Recalc on resize */
-    const onResize = () => {
-      const { startW } = calc();
-      gsap.set(bar, { width: startW });
-      st.refresh();
-    };
-    window.addEventListener('resize', onResize);
-
-    return () => {
-      st.kill();
-      window.removeEventListener('resize', onResize);
-    };
+    const check = () => setShrunk(window.scrollY > window.innerHeight * 0.6);
+    window.addEventListener('scroll', check, { passive: true });
+    check();
+    return () => window.removeEventListener('scroll', check);
   }, []);
 
+  const bar: CSSProperties = {
+    position:        'fixed',
+    top:             28,
+    left:            '50%',
+    transform:       'translateX(-50%)',
+    zIndex:          9999,
+    display:         'flex',
+    alignItems:      'center',
+    justifyContent:  'space-between',
+    padding:         '10px 20px',
+    borderRadius:    12,
+    width:           shrunk ? 'min(58vw, 820px)' : 'min(88vw, 1320px)',
+    transition:      'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+    whiteSpace:      'nowrap',
+    /* ── Frosted glass — opaque enough to not read through, transparent enough to blur ── */
+    background:      'rgba(25, 25, 30, 0.75)',
+    backdropFilter:  'blur(24px) saturate(160%)',
+    WebkitBackdropFilter: 'blur(24px) saturate(160%)',
+    border:          '1px solid rgba(255,255,255,0.10)',
+    boxShadow:       '0 8px 32px rgba(0,0,0,0.60)',
+  };
+
+  const logo: CSSProperties = {
+    display:    'flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    opacity:    1,
+    transition: 'opacity 0.15s ease',
+  };
+
+  const links: CSSProperties = {
+    display:        'flex',
+    alignItems:     'center',
+    gap:            32,
+    listStyle:      'none',
+    margin:         '0 auto',
+    padding:        0,
+  };
+
+  const link: CSSProperties = {
+    fontSize:      13,
+    fontWeight:    500,
+    color:         'rgba(255,255,255,0.72)',
+    letterSpacing: '0.015em',
+    textDecoration: 'none',
+    transition:    'color 0.15s ease',
+  };
+
+  const cta: CSSProperties = {
+    flexShrink:    0,
+    display:       'inline-flex',
+    alignItems:    'center',
+    padding:       '8px 18px',
+    borderRadius:  8,
+    background:    '#ececec',
+    border:        '1px solid rgba(255,255,255,0.18)',
+    color:         '#0c0c0c',
+    fontSize:      13,
+    fontWeight:    600,
+    letterSpacing: '0.01em',
+    textDecoration: 'none',
+    transition:    'background 0.15s ease',
+    cursor:        'pointer',
+  };
+
   return (
-    <nav className={styles.navWrapper} id="navbar">
-      <div ref={navBarRef} className={styles.navBar}>
-        <div className={styles.inner}>
+    <div style={bar} id="navbar">
+      <a href="#" aria-label="Poiro home" style={logo}>
+        <Image
+          src="/assets/logo.png"
+          alt="Poiro"
+          width={80}
+          height={26}
+          priority
+          style={{ height: 20, width: 'auto', display: 'block' }}
+        />
+      </a>
 
-          <a href="#" className={styles.logo} aria-label="Poiro Home">
-            <Image
-              src="/assets/logo.png"
-              alt="Poiro"
-              width={88}
-              height={28}
-              priority
-              className={styles.logoImg}
-            />
-          </a>
+      <ul style={links} role="list">
+        <li><a href="#storytelling" style={link}>Services</a></li>
+        <li><a href="#gallery"      style={link}>Featured Work</a></li>
+        <li><a href="#send-idea"    style={link}>Reviews</a></li>
+      </ul>
 
-          <div className={styles.links}>
-            <a href="#storytelling" className={styles.link}>Services</a>
-            <a href="#gallery"      className={styles.link}>Featured Work</a>
-            <a href="#send-idea"   className={styles.link}>Reviews</a>
-          </div>
-
-          <a href="#send-idea" className={styles.cta} id="nav-cta">
-            Get in Touch
-          </a>
-
-        </div>
-      </div>
-    </nav>
+      <a href="#send-idea" style={cta} id="nav-cta">Get in Touch</a>
+    </div>
   );
 }
