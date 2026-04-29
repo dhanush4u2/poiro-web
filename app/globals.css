@@ -2,8 +2,26 @@
    POIRO — Design System & Global Styles
    ============================================ */
 
+/* --- Advercase font --- */
+@font-face {
+  font-family: 'Advercase';
+  src: url('/assets/Advercase/Advercase.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Advercase';
+  src: url('/assets/Advercase/Advercase_Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* --- CSS Custom Properties (Theme) --- */
 :root {
+  --font-advercase: 'Advercase';
   /* Colors */
   --color-primary: #ff8015;
   --color-primary-hover: #ff9a40;

@@ -161,11 +161,12 @@ export default function Hero() {
         {/* Background image fills the card */}
         <div className={styles.bgWrap}>
           <Image
-            src="/assets/Hero.avif"
+            src="/assets/hero.png"
             alt=""
             fill
             priority
-            quality={90}
+            quality={100}
+            unoptimized
             sizes="100vw"
             className={styles.bgImage}
           />
@@ -178,21 +179,25 @@ export default function Hero() {
         {/* Hands */}
         <div ref={leftHandRef} className={styles.leftHand}>
           <Image
-            src="/assets/LeftHand.avif"
+            src="/assets/leftHand.png"
             alt=""
-            width={400}
-            height={500}
+            width={1200}
+            height={896}
             priority
+            quality={100}
+            unoptimized
             className={styles.handImage}
           />
         </div>
         <div ref={rightHandRef} className={styles.rightHand}>
           <Image
-            src="/assets/RightHand.avif"
+            src="/assets/rightHand.png"
             alt=""
-            width={380}
-            height={480}
+            width={1200}
+            height={896}
             priority
+            quality={100}
+            unoptimized
             className={styles.handImage}
           />
         </div>

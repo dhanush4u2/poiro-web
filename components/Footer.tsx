@@ -33,7 +33,7 @@ export default function Footer() {
     /* ── 1. Intense scroll-driven zoom-out ── */
     gsap.fromTo(
       imageWrap,
-      { scale: 1.22 },
+      { scale: 1.08 },
       {
         scale: 1,
         ease: 'none',
@@ -112,10 +112,11 @@ export default function Footer() {
       <div className={styles.imageContainer}>
         <div ref={imageWrapRef} className={styles.imageWrapper}>
           <Image
-            src="/assets/footer.avif"
+            src="/assets/footer.png"
             alt=""
             fill
-            quality={90}
+            quality={100}
+            unoptimized
             sizes="100vw"
             className={styles.footerImage}
           />

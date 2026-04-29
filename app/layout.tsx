@@ -54,7 +54,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cormorant.variable}>
-      <body>
+      <body suppressHydrationWarning>
         <SmoothScroll>
           <Navbar />
           <main>{children}</main>
